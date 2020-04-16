@@ -1,4 +1,4 @@
-root = "/root/ChinaTown/"
+root = "./"
 thread = 4
 harbor = 0
 bootstrap = "snlua bootstrap"
