@@ -39,3 +39,15 @@ GAMEDB_SERVICE_COUNT 数据服务数<br>
 BATTLE_SERVICE_COUNT 对战服务数<br>
 MYSQL_USER 数据库用户名<br>
 MYSQL_PWD 数据库密码<br>
+
+## Resources
+资源服务器。使用前安装nodejs。<br>
+客户端输出的AB包文件夹放到./resources中，用于资源更新。<br>
+80端口<br>
+
+开启：<br>
+cd ./resources<br>
+./start.sh<br>
+关闭：<br>
+cd ./resources<br>
+./kill.sh<br>
