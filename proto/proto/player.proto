@@ -1,0 +1,16 @@
+import "base/common.proto";
+
+message C2GSBackToTeam
+{
+
+}
+
+message C2GSBackToHall 
+{
+
+}
+
+message GS2CRefreshPlayer
+{
+    optional Player status = 1;
+}

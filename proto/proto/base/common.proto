@@ -1,0 +1,23 @@
+message SimplePlayer 
+{
+    optional int32 pid = 1;   
+    optional string name = 2;
+    optional int32 head = 3;
+}
+
+message Player
+{
+    optional int32 pid = 1;   
+    optional string name = 2;
+    optional int32 head = 3;
+    optional int32 score = 4[default = -1000000];
+}
+
+message RoomMemberInfo
+{
+    optional int32 pid = 1;
+    optional string name =2;
+    optional int32 head =3;
+    optional bool ready =4;
+}
+

@@ -1,0 +1,49 @@
+import "base/common.proto";
+message C2GSLoginAccount
+{
+    optional string account = 1;
+    optional string token = 2;
+}
+
+message C2GSLoginPlayer
+{
+    optional int32 pid = 1;
+}
+
+message C2GSCreatePlayer
+{
+    optional string name = 1;
+    optional int32 head = 2;   
+}
+
+message C2GSReLoginPlayer
+{
+    optional int32 pid = 1;
+    optional string playerToken = 2;
+}
+
+message GS2CLoginAccount 
+{
+    optional string account = 1;
+    repeated SimplePlayer playerList = 2;
+}
+
+message GS2CLoginPlayer 
+{
+    optional string account = 1;
+    optional Player player = 2;
+    optional string playerToken = 3;
+}
+
+message GS2CCreatePlayer 
+{
+    optional string account = 1;
+    optional SimplePlayer player = 2;
+}
+
+
+message GS2CLoginError 
+{
+    optional int32 retCode = 1;
+    optional string retMsg = 2;
+}

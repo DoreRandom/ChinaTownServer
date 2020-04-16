@@ -1,0 +1,21 @@
+message C2GSLogin{
+    required string account = 1;
+    required string password = 2;
+}
+
+message C2GSRegister {
+    required string account =1;
+    required string password = 2;
+}
+
+message GS2CLoginResult{
+    required int32 retCode = 1;
+    optional string retMsg = 2;
+    optional string account = 3;
+    optional string token = 4;
+}
+
+message GS2CRegisterResult{
+    required int32 retCode = 1;
+    optional string retMsg = 2;
+}

@@ -1,0 +1,10 @@
+message C2GSChat {
+    optional string msg = 1;
+    optional int32 chanType = 2;
+}
+
+message GS2CChat {
+    optional int32 pid = 1;
+    optional string msg = 2;
+    optional int32 chanType = 3;
+}

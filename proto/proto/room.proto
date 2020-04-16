@@ -1,0 +1,60 @@
+import "base/common.proto";
+
+message C2GSCreateRoom
+{
+}
+
+message C2GSJoinRoom 
+{
+    optional int32 roomId = 1;
+}
+
+message C2GSKickRoom 
+{
+    optional int32 targetPid = 1;
+}
+
+message C2GSLeaveRoom
+{
+}
+
+message C2GSSetReady
+{
+    optional bool ready = 1;
+}
+
+message C2GSStartGame
+{
+    
+}
+
+
+message GS2CAddRoom 
+{
+    optional int32 roomId = 1;
+    optional int32 leader = 2;
+    repeated RoomMemberInfo members = 3;
+}
+
+message GS2CDelRoom 
+{
+}
+
+message GS2CAddRoomMember 
+{
+    optional RoomMemberInfo memInfo = 1;
+}
+message GS2CChangeLeader 
+{
+    optional int32 leader = 1;
+}
+
+message GS2CRefreshRoomStatus
+{
+    repeated int32 roomStatus = 1;
+}
+
+message GS2CRefreshMemberInfo 
+{
+    optional RoomMemberInfo memInfo = 1;
+}

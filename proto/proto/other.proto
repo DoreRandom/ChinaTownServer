@@ -1,0 +1,14 @@
+message C2GSHeartBeat 
+{
+}
+
+message GS2CHeartBeat 
+{
+    optional uint32 time = 1;
+}
+
+message GS2CNotify
+{
+    optional string msg = 1;
+    optional bool window = 2;
+}

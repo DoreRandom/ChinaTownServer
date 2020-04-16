@@ -1,0 +1,189 @@
+message BattlePlayerStatus
+{
+    optional int32 money = 1 [default = -1];
+    optional int32 lastMoney = 2 [default = -1];
+    optional int32 tid = 3 [default = -1];
+    optional int32 online = 4[default = -1];
+    repeated int32 shopList = 5;
+
+}
+
+message BattlePlayerInfo
+{
+    optional int32 pid = 1;
+    optional string name = 2;
+    optional int32 head = 3;
+    optional BattlePlayerStatus status = 4;
+}
+
+message BattleLocationInfo 
+{
+    optional int32 lid = 1;
+    optional int32 pid = 2;
+    optional int32 shop = 3;
+}
+
+
+
+message BattleTradeInfo
+{
+    optional int32 pid = 1;
+    optional int32 locked = 2 [default = -1];
+    optional int32 money = 3 [default = -1];
+    repeated int32 shopList = 4;
+    repeated int32 locationList = 5;
+}
+
+message BattleRankInfo 
+{
+    optional int32 pid = 1;
+    optional string name = 2;
+    optional int32 head = 3;
+    optional int32 score = 4;
+    optional int32 money = 5;
+}
+
+message C2GSSelectCard
+{
+    optional int32 bid = 1;
+    repeated int32 shopList = 2;
+    repeated int32 locationList = 3;
+}
+
+message C2GSShowCacheWindow
+{
+    optional int32 bid = 1;
+}
+
+message C2GSNextYear
+{
+    optional int32 bid = 1;
+}
+
+message C2GSSignal
+{
+    optional int32 bid = 1;
+    optional float x = 2;
+    optional float y = 3;
+}
+
+message C2GSSetShopToLocation
+{
+    optional int32 bid = 1;
+    optional int32 lid = 2;
+    optional int32 shop = 3;
+}
+
+message C2GSTrade
+{
+    optional int32 bid = 1;
+    optional int32 targetPid = 2;
+}
+
+message C2GSCancelTrade 
+{
+    optional int32 bid = 1;
+}
+
+message C2GSTradeShop
+{
+    optional int32 bid = 1;
+    optional int32 tid = 2;
+    optional int32 shop = 3;
+    optional int32 num = 4;
+}
+
+message C2GSTradeLocation
+{
+    optional int32 bid = 1;
+    optional int32 tid = 2;
+    optional int32 lid = 3;
+}
+
+message C2GSTradeMoney
+{
+    optional int32 bid = 1;
+    optional int32 tid = 2;
+    optional int32 money = 3;
+}
+
+message C2GSTradeLock 
+{
+    optional int32 bid = 1;
+    optional int32 tid = 2;
+}
+
+message C2GSForceLeave
+{
+    
+}
+
+message GS2CCreateBattle 
+{
+    optional int32 bid = 1;
+    repeated BattlePlayerInfo playerInfos = 2;
+}
+
+message GS2CRefreshYear
+{
+    optional int32 bid = 1;
+    optional int32 year = 2;
+    optional int32 vote = 3;
+    optional bool nextYear =4;
+}
+
+message GS2CDispatchCard
+{
+    optional int32 bid = 1;
+    repeated int32 shopList = 2;
+    repeated int32 locationList = 3;
+    optional int32 expTime = 4;
+    optional int32 nowTime = 5;
+}
+
+message GS2CRefreshLocation
+{
+    optional int32 bid = 1;
+    repeated BattleLocationInfo locations = 2;
+}
+
+message GS2CRefreshPlayerStatus
+{
+    optional int32 bid=1;
+    optional int32 pid=2;
+    optional BattlePlayerStatus status = 3;
+}
+
+message GS2CSelectCard
+{
+    optional int32 bid = 1;
+}
+
+
+message GS2CSignal
+{
+    optional int32 bid = 1;
+    optional int32 pid = 2;
+    optional float x = 3;
+    optional float y = 4;
+}
+
+message GS2CTrade 
+{
+    optional int32 bid =1;
+    optional int32 tid =2;
+    repeated BattleTradeInfo tradeInfos = 3;
+}
+
+message GS2CRefreshTradeInfo 
+{
+    optional int32 bid = 1;
+    optional int32 tid = 2;
+    optional BattleTradeInfo tradeInfo = 3;
+}
+
+message GS2CRankInfo 
+{
+    optional int32 bid = 1;
+    repeated BattleRankInfo rankInfos = 2;
+}
