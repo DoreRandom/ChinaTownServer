@@ -627,6 +627,11 @@ function o:C2GSTrade(data)
         return
     end
 
+    if sourcePid == targetPid then
+        source:Notify("不能自己跟自己交易",true)
+        return
+    end
+
     local sourceTid = source:GetData("tid",0)
     local targetTid = target:GetData("tid",0)
     if sourceTid ~= 0 then
