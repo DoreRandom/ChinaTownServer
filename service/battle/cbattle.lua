@@ -517,16 +517,24 @@ end
 function o:C2GSNextYear(data)
     local pid = data.pid
 
-    if self.m_NextYearVote[pid] then
-        return 
-    end
     local player = self.m_Players[pid]
+    --不在交易阶段
+    if self.m_Status ~= gamedefines.GAME_STATUS.Trade then
+        player:Notify("有玩家尚未选卡完毕，请稍后重试",true)
+        return
+    end
+
     if player:GetData("tid",0) ~= 0 then
         player:Notify("尚在交易中，请完成或取消交易后重试",true)
         return
     end
-
-    self.m_NextYearVote[pid] = true
+    --让其可以自己调整
+    if self.m_NextYearVote[pid] then
+        self.m_NextYearVote[pid] = nil
+    else
+        self.m_NextYearVote[pid] = true
+    end
+    
     self:GS2CRefreshYear()
     if table_count(self.m_NextYearVote) == table_count(self.m_Players) then
         --进入下一年
