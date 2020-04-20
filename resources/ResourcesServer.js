@@ -4,11 +4,14 @@ var fs = require('fs'); //引入fs模块
 var url = require('url');//引入url模块
 var path = require('path');//引入path模块
 
+
 // req : 从浏览器带来的请求信息
 // res : 从服务器返回给浏览器的信息
 var server = http.createServer(function(req,res){
     var pathname = url.parse(req.url).pathname;;
      //客户端输入的url，例如如果输入localhost:8888/index.html，那么这里的url == /index.html 
+
+    pathname = decodeURIComponent(pathname)
 
     var realPath = path.join(".",pathname);
     //完整的url路径
