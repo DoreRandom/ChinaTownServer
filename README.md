@@ -54,3 +54,9 @@ cd ./resources<br>
 
 ## Client
 https://github.com/DoreRandom/ChinaTownClient
+
+## Demo
+http://www.woodgame.top/client/商业街安装程序.exe
+
+## 缺陷较多
+本客户端实现较为简单，在众多方面存在问题，欢迎各位大佬给予指导。1767922548@qq.com
