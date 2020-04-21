@@ -51,3 +51,6 @@ cd ./resources<br>
 关闭：<br>
 cd ./resources<br>
 ./kill.sh<br>
+
+## Client
+https://github.com/DoreRandom/ChinaTownClient
