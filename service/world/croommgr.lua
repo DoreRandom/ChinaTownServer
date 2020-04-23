@@ -10,9 +10,13 @@ function o:Ctor()
     self.m_RoomIndex = 0
     self.m_Id2Room = {}
     self.m_Pid2RoomId = {}
+    self.m_IdCaches = {}
 end
 --分配id
 function o:DispatchId()
+    if #self.m_IdCaches > 0 then
+        return table.remove(self.m_IdCaches)
+    end
     self.m_RoomIndex = self.m_RoomIndex + 1
     return self.m_RoomIndex
 end
@@ -38,6 +42,7 @@ function o:RemoveRoom(roomId)
     local room = self.m_Id2Room[roomId]
     if room then
         self.m_Id2Room[roomId] = nil
+        table.insert(self.m_IdCaches,roomId)
         room:Release()
     end
 end

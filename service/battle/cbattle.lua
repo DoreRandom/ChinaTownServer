@@ -7,7 +7,7 @@ local CTrade = import(service_path("ctrade"))
 local gamedata = import(lualib_path("public.gamedata"))
 local gamedefines = import(lualib_path("public.gamedefines"))
 
-local DISPATCH_TIME = 60 --发牌时间
+local DISPATCH_TIME = 300 --发牌时间
 
 local o = class("CBattle",CObj)
 
@@ -33,6 +33,10 @@ end
 
 function o:Release()
     CObj.Release(self)
+end
+
+function o:GetPlayer(pid)
+    return self.m_Players[pid]
 end
 
 --初始化
@@ -462,8 +466,6 @@ function o:C2GSSelectCard(data)
         end
         changeList[shop] = changeList[shop] + 1
     end
-    player:UpdateShopList(changeList)
-
 
     local lidMap = {}
     for _,lid in ipairs(locationList) do
@@ -476,6 +478,8 @@ function o:C2GSSelectCard(data)
         end
         lidMap[lid] = pid
     end
+
+    player:UpdateShopList(changeList)
     self:UpdateLocation(lidMap)
 
     --将剩余地卡牌放回卡库
@@ -694,9 +698,19 @@ function o:C2GSCancelTrade(data)
     end
     self.m_TradeCache[tid] = nil
 end
+--解锁所有
+function o:UnlockTrade(tid)
+    local trade = self.m_TradeCache[tid]
+    if not trade then return end
+    for pid,tradeInfo in pairs(trade:GetTradeInfoMap()) do
+        if tradeInfo:GetData("locked") == 1 then
+            tradeInfo:SetData("locked",0)
+        end
+    end
+end
 --交易店
 function o:C2GSTradeShop(data)
-    local tid = data.tid
+    local tid = data.tid or 0
     local pid = data.pid
     local player = self.m_Players[pid]
     if tid ~= player:GetData("tid",0) or tid ==0 then
@@ -708,7 +722,7 @@ function o:C2GSTradeShop(data)
     local tradeShopList = tradeInfo:GetData("shopList")
     local shopList = player:GetData("shopList")
     local shop = data.shop
-    if not shop then return end
+    if not shop or shop == 0 then return end
     local num = tradeShopList[shop] + data.num
     if num < 0 then
         num = 0 
@@ -717,10 +731,11 @@ function o:C2GSTradeShop(data)
     end
     tradeShopList[shop] = num
     tradeInfo:SetData("shopList",tradeShopList)
+    self:UnlockTrade(tid)
 end
 --交易地
 function o:C2GSTradeLocation(data)
-    local tid = data.tid
+    local tid = data.tid or 0
     local pid = data.pid
     local player = self.m_Players[pid]
     if tid ~= player:GetData("tid",0) or tid ==0 then
@@ -740,10 +755,11 @@ function o:C2GSTradeLocation(data)
     end
     local tradeLocationStatus = tradeInfo:GetLocation(lid)
     tradeInfo:UpdateLocationList(lid,not tradeLocationStatus)
+    self:UnlockTrade(tid)
 end
 --交易钱
 function o:C2GSTradeMoney(data)
-    local tid = data.tid
+    local tid = data.tid or 0
     local pid = data.pid
     local player = self.m_Players[pid]
     if tid ~= player:GetData("tid",0) or tid ==0 then
@@ -752,15 +768,16 @@ function o:C2GSTradeMoney(data)
 
     local trade = self.m_TradeCache[tid]
     local tradeInfo = trade:GetTradeInfo(pid)
-    local money = data.money
+    local money = data.money or 0
     local maxMoney = player:GetData("money")
     if money < 0 then money = 0 end
     if money > maxMoney then money = maxMoney end
     tradeInfo:SetData("money",money)
+    self:UnlockTrade(tid)
 end
 --交易锁
 function o:C2GSTradeLock(data)
-    local tid = data.tid
+    local tid = data.tid or 0
     local pid = data.pid
     local player = self.m_Players[pid]
     if tid ~= player:GetData("tid",0) or tid ==0 then
@@ -768,8 +785,9 @@ function o:C2GSTradeLock(data)
     end
 
     local trade = self.m_TradeCache[tid]
+    if not trade then return end
     local tradeInfo = trade:GetTradeInfo(pid)
-    local tradeLock = tradeInfo:GetData("locked")
+    local tradeLock = tradeInfo:GetData("locked",0)
     tradeLock = 1 - tradeLock
     tradeInfo:SetData("locked",tradeLock)
     
@@ -781,6 +799,7 @@ end
 --交易结算
 function o:CompleteTrade(tid)
     local trade = self.m_TradeCache[tid]
+    if not trade then return end
     for pid,tradeInfo in pairs(trade:GetTradeInfoMap()) do
         local player = self.m_Players[pid]
 
@@ -793,9 +812,10 @@ function o:CompleteTrade(tid)
         otherPlayer:SetData("money",otherPlayer:GetData("money") + tradeInfo:GetData("money"))
         otherPlayer:UpdateShopList(tradeInfo:GetData("shopList"))
 
-        local locationList = tradeInfo:GetData("locationList")
+        --fix 因为shoplist为了防止缺省值会为空列表增加{0} 这里直接从locationmap获取，防止再一次的判断
+        local locationList = tradeInfo:GetLocationMap() 
         local locationMap = {}
-        for _,lid in ipairs(locationList) do
+        for lid,_ in pairs(locationList) do
             locationMap[lid] = otherPid
         end
 
@@ -807,6 +827,7 @@ function o:CompleteTrade(tid)
         })
         player:SetData("tid",0)
     end
+    self.m_TradeCache[tid] = nil
 end
 --GS2C--
 --创建对战

@@ -37,6 +37,10 @@ function CTradeInfo:GetLocation(lid)
     return self.m_LocationMap[lid]
 end
 
+function CTradeInfo:GetLocationMap()
+    return self.m_LocationMap
+end
+
 function CTradeInfo:SetData(key,value)
     self.m_Data[key] = value
     self:StatusChange(key)
@@ -126,7 +130,7 @@ end
 --交易是否完成
 function CTrade:IsComplete()
     for _,tradeInfo in pairs(self.m_TradeInfoMap) do
-        if tradeInfo:GetData("locked") ~= 1 then
+        if tradeInfo:GetData("locked",0) ~= 1 then
             return false
         end
     end

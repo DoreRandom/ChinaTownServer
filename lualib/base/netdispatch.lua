@@ -14,6 +14,7 @@ function M.Dispatch(netcmd)
                 local mod,cmd,seq,obj = netproto.Deserialize(msg,sz)
                 netcmd.Invoke(mod,cmd,fd,obj,seq)
             end
+            skynet.trash(msg, sz) 
         end
     }
 end

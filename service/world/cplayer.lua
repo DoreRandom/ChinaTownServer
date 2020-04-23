@@ -207,7 +207,7 @@ end
 function o:_CheckHeartBeat()
     assert(not is_release(self))
     local now = g_TimerMgr:GetTime()
-    local maxTime = 60
+    local maxTime = 180
     if now - self.m_HeartBeatTime > maxTime then
         if not self:IsInGame() then --TODO 这里如果在游戏中，则暂时不会释放 而是调用强制退出游戏
             g_WorldMgr:Logout(self.m_Pid)
